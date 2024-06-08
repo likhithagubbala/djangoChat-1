@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Bree serif', sans-serif; 
+        }
+
+        .page-container {
+            background-image: url('https://img.freepik.com/free-vector/people-celebrating-holi-festival_23-2148434472.jpg?w=740&t=st=1717672224~exp=1717672824~hmac=d5dedc0d70832340b71e56c16c1265cebf64514c92e1dc62f4fcd68ab6f5a5a0');
+            background-size: cover; /* Cover the entire container */
+            background-position: center; /* Center the background image */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            padding: 1rem;
+            color: white;
+        }
+
+        .content {
+            width: 90%;
+            max-width: 1200px;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            border-radius: 1rem;
+            box-shadow: 0px 0px 1rem 0px rgba(0, 0, 0, 0.2);
+            color: #ffffff; /* Text color */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        input[type="text"] {
+            outline: none;
+            border: none;
+            padding: 0.75rem 1rem; /* Adjusted padding */
+            background-color: #ffffff;
+            border-radius: 2rem;
+            width: calc(50% - 1rem); /* Reduced width */
+            margin: 0.5rem;
+            text-align: center;
+            height: 50px; /* Adjusted height */
+            font-size:15px;
+        }
+
+        button {
+            margin-top: 1rem;
+            border: 1px solid #ffffff;
+            outline: 0;
+            padding: 0.5rem 1rem; /* Adjusted padding */
+            background-color: #fcfcfc;
+            border-radius: 2rem;
+            color: #000000;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: 0.25s ease;
+            cursor: pointer;
+            height:50px;
+            width:150px;
+        }
+
+        button:hover {
+            background-color:#1a1919;
+            color:#fafafa
+        }
+
+        .room-list {
+            margin-top: 2rem;
+        }
+
+        .room-list h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .room-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .room-card {
+            background-color: #fcf3f3;
+            border-radius: 1rem;
+            box-shadow: 0px 4px 8px rgba(143, 128, 128, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .room-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 2px 10px #ffffff;
+        }
+
+        .room-card a {
+            text-decoration: none;
+            color: #1b1f24;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content">
+            <h1>GRIET Communtiy</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="text" placeholder="Username" name="username" required />
+                <input type="text" placeholder="Room Name" name="room" required /><br />
+                <button type="submit">Enter Room</button>
+            </form>
+
+            <div class="room-list">
+                <h2>Available Rooms</h2>
+                <div class="room-cards">
+                    {% for room in rooms %}
+                        <div class="room-card">
+                            <a href="{% url 'room' room_name=room.room_name username='Guest' %}">{{ room.room_name }}</a>
+                        </div>
+                    {% empty %}
+                        <p>No rooms available</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
