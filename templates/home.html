@@ -3,138 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GRIET Community</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Bree serif', sans-serif; 
+            font-family: 'Roboto', sans-serif;
         }
 
-        .page-container {
-            background-image: url('https://img.freepik.com/free-vector/people-celebrating-holi-festival_23-2148434472.jpg?w=740&t=st=1717672224~exp=1717672824~hmac=d5dedc0d70832340b71e56c16c1265cebf64514c92e1dc62f4fcd68ab6f5a5a0');
-            background-size: cover; /* Cover the entire container */
-            background-position: center; /* Center the background image */
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 100%;
             min-height: 100vh;
+            background-color: #f7f7f7;
             padding: 1rem;
-            color: white;
         }
 
-        .content {
-            width: 90%;
-            max-width: 1200px;
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .left-side, .right-side {
+            flex: 1;
             padding: 2rem;
-            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-            border-radius: 1rem;
-            box-shadow: 0px 0px 1rem 0px rgba(0, 0, 0, 0.2);
-            color: #ffffff; /* Text color */
+        }
+
+        .left-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .right-side {
+            background: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
         }
 
         h1 {
-            text-align: center;
             font-size: 2rem;
             margin-bottom: 1rem;
         }
 
-        form {
-            text-align: center;
+        .form-container {
+            width: 100%;
             margin-bottom: 2rem;
+            text-align: center;
         }
 
         input[type="text"] {
-            outline: none;
-            border: none;
-            padding: 0.75rem 1rem; /* Adjusted padding */
-            background-color: #ffffff;
-            border-radius: 2rem;
-            width: calc(50% - 1rem); /* Reduced width */
-            margin: 0.5rem;
-            text-align: center;
-            height: 50px; /* Adjusted height */
-            font-size:15px;
+            width: 80%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
         }
 
         button {
-            margin-top: 1rem;
-            border: 1px solid #ffffff;
-            outline: 0;
-            padding: 0.5rem 1rem; /* Adjusted padding */
-            background-color: #fcfcfc;
-            border-radius: 2rem;
-            color: #000000;
+            width: 80%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff5f6d;
+            color: white;
             font-size: 1rem;
-            font-weight: bold;
-            transition: 0.25s ease;
             cursor: pointer;
-            height:50px;
-            width:150px;
+            transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color:#1a1919;
-            color:#fafafa
+            background-color: #e54e4e;
         }
 
         .room-list {
-            margin-top: 2rem;
+            width: 100%;
+            text-align: center;
         }
 
         .room-list h2 {
-            text-align: center;
             font-size: 1.5rem;
             margin-bottom: 1rem;
-        }
-
-        .room-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
-            gap: 1rem;
-            padding: 1rem;
-        }
-
-        .room-card {
-            background-color: #fcf3f3;
-            border-radius: 1rem;
-            box-shadow: 0px 4px 8px rgba(143, 128, 128, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            padding: 1.5rem;
-            text-align: center;
             cursor: pointer;
         }
 
-        .room-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0px 2px 10px #ffffff;
+        .room-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
         }
 
-        .room-card a {
+        .room-card {
+            background-color: rgba(255, 255, 255, 0.5);
+            color: #333;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
             text-decoration: none;
-            color: #1b1f24;
-            font-size: 1.25rem;
-            font-weight: bold;
+            display: block;
+            transition: box-shadow 0.3s, transform 0.3s;
+            flex: 1 0 120px;
+            border: 1px solid #FF686B;
+            margin-bottom: 1rem;
+        }
+
+        .room-card:hover {
+            box-shadow: 0 4px 8px rgba(255, 95, 109, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .right-side h2 {
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        .right-side p {
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .back-icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ff5f6d;
+            display: none;
         }
     </style>
+    <script>
+        function toggleRooms() {
+            const roomCards = document.querySelector('.room-cards');
+            const formContainer = document.querySelector('.form-container');
+            const header = document.querySelector('h1');
+            const backIcon = document.querySelector('.back-icon');
+
+            if (roomCards.classList.contains('hidden')) {
+                roomCards.classList.remove('hidden');
+                formContainer.classList.add('hidden');
+                header.classList.add('hidden');
+                backIcon.style.display = 'block';
+            } else {
+                roomCards.classList.add('hidden');
+                formContainer.classList.remove('hidden');
+                header.classList.remove('hidden');
+                backIcon.style.display = 'none';
+            }
+        }
+    </script>
 </head>
 <body>
-    <div class="page-container">
-        <div class="content">
-            <h1>GRIET Communtiy</h1>
-            <form action="" method="post">
-                {% csrf_token %}
-                <input type="text" placeholder="Username" name="username" required />
-                <input type="text" placeholder="Room Name" name="room" required /><br />
-                <button type="submit">Enter Room</button>
-            </form>
-
+    <div class="container">
+        <div class="left-side">
+            <span class="back-icon" onclick="toggleRooms()">&#8592; Back</span>
+            <h1>GRIET Community</h1>
+            <div class="form-container">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Username" name="username" required />
+                    <input type="text" placeholder="Room Name" name="room" required /><br />
+                    <button type="submit">Enter Room</button>
+                </form>
+            </div>
             <div class="room-list">
-                <h2>Available Rooms</h2>
-                <div class="room-cards">
+                <h2 onclick="toggleRooms()">Available Rooms</h2>
+                <div class="room-cards hidden">
                     {% for room in rooms %}
                         <div class="room-card">
                             <a href="{% url 'room' room_name=room.room_name username='Guest' %}">{{ room.room_name }}</a>
@@ -144,6 +203,10 @@
                     {% endfor %}
                 </div>
             </div>
+        </div>
+        <div class="right-side">
+            <h2>Welcome to GRIET Community</h2>
+            <p>Connect with your peers and join the discussion in various rooms.</p>
         </div>
     </div>
 </body>
