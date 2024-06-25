@@ -1,235 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Room</title>
+    <title>Chat Room - {{ room_name }}</title>
     <style>
-      * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Roboto', sans-serif;
-      }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
 
-      body {
-          background-image: url('36949145.jpg');
-          background-size: cover;
-          background-repeat: no-repeat;
-          background-position: center;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-      }
+        body {
+            background-image: url('36949145.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-      .page-container {
-          width: 80%;
-          max-width: 700px;
-          background: rgba(255, 255, 255, 0.8);
-          border-radius: 5px;
-          box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-          display: flex;
-          flex-direction: column;
-          height: 90%;
-      }
+        .page-container {
+            width: 80%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 90%;
+        }
 
-      h1 {
-          font-size: 1.5rem;
-          text-align: center;
-          margin: 1rem 0;
-          color: #333;
-          padding: 0.5rem;
-          border-bottom: 1px solid #ddd;
-      }
+        h1 {
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 1rem 0;
+            color: #333;
+            padding: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
 
-      .chats-container {
-          flex: 1;
-          padding: 1rem;
-          overflow-y: auto;
-          display: flex;
-          flex-direction: column;
-      }
+        .chats-container {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
 
-      .chats-container::-webkit-scrollbar {
-          width: 10px;
-      }
+        .chats-container::-webkit-scrollbar {
+            width: 10px;
+        }
 
-      .chats-container::-webkit-scrollbar-thumb {
-          background-color: #4CAF50;
-          border-radius: 10px;
-      }
+        .chats-container::-webkit-scrollbar-thumb {
+            background-color: #4CAF50;
+            border-radius: 10px;
+        }
 
-      form {
-          display: flex;
-          align-items: center;
-          padding: 1rem;
-          background-color: #f0f0f0;
-          border-top: 1px solid #ccc;
-          position: sticky;
-          bottom: 0;
-          width: 100%;
-      }
+        form {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: #f0f0f0;
+            border-top: 1px solid #ccc;
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+        }
 
-      textarea {
-          flex: 1;
-          padding: 0.75rem;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          font-size: 1rem;
-          resize: none;
-          overflow-y: scroll;
-          outline: none;
-          background-color: #fff;
-          margin-right: 1rem;
-      }
+        input[type="text"] {
+            flex: 1;
+            padding: 0.75rem;
+            margin-right: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            resize: none;
+        }
 
-      textarea::-webkit-scrollbar {
-          display: none;
-      }
+        button {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-      textarea {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-      }
+        button:hover {
+            background-color: #45a049;
+        }
 
-      button {
-          padding: 0.75rem 1rem;
-          background-color: #4CAF50;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-          font-size: 1rem;
-          font-weight: bold;
-          outline: 0;
-      }
+        .message-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0.5rem;
+            max-width: 80%;
+        }
 
-      button:hover {
-          background-color: #45a049;
-      }
+        .message-container.me {
+            align-self: flex-end;
+        }
 
-      .single-message {
-          max-width: 60%;
-          margin: 0.5rem 0;
-          padding: 0.5rem 1rem;
-          border-radius: 5px;
-          color: white;
-          font-size: 1rem;
-          word-wrap: break-word;
-          position: relative;
-      }
+        .message-container.others {
+            align-self: flex-start;
+        }
 
-      .single-message.sent {
-          align-self: flex-end;
-          background-color: #007bff;
-      }
+        .message {
+            padding: 0.75rem;
+            border-radius: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            color: white;
+        }
 
-      .single-message.received {
-          align-self: flex-start;
-          background-color: #dc3545;
-      }
+        .message.me {
+            background-color: #5A72A0;
+        }
 
-      .message-container {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-      }
+        .message.others {
+            background-color: #F65993;
+        }
 
-      .message-container.sent {
-          align-items: flex-end;
-      }
+        .author {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
 
-      .username {
-          font-size: 0.75rem;
-          margin-bottom: 0.25rem;
-          color: #333;
-      }
-  </style>
+        .timestamp {
+            font-size: 0.75rem;
+            color: #eee;
+            text-align: right;
+            display: block;
+            margin-top: 0.25rem;
+        }
+    </style>
 </head>
 <body>
     <div class="page-container">
-        <h1>Hi {{user}}, Welcome to {{room_name}}</h1>
-        <div class="chats-container" id="chats-container">
+        <h1>Hi {{ user_name }}, Welcome to {{ room_name }}</h1>
+        <div class="chats-container" id="messages">
             {% for message in messages %}
-            <div class="message-container {% if message.sender.lower == user.lower %} sent {% else %} received {% endif %}">
-                <div class="username">{% if message.sender.lower == user.lower %} Me {% else %} {{ message.sender }} {% endif %}</div>
-                <div class="single-message {% if message.sender.lower == user.lower %} sent {% else %} received {% endif %}">
-                    {{ message.message }}
+                <div class="message-container {% if message.author == user_name %}me{% else %}others{% endif %}">
+                    <div class="author">{{ message.author }}</div>
+                    <div class="message {% if message.author == user_name %}me{% else %}others{% endif %}">
+                        {{ message.content }}
+                        <span class="timestamp">{{ message.time_stamp }}</span>
+                    </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
-        <form action="" id="msg-form" method="post">
+        <form method="post" action="{% url 'send_message' room_name=room_name %}">
             {% csrf_token %}
-            <textarea name="message" id="message" placeholder="Enter your message"></textarea>
+            <input type="text" name="message" placeholder="Type your message...">
             <button type="submit">Send</button>
         </form>
     </div>
-    <script>
-        const socketURL = `ws://${window.location.host}/ws/messages/{{room_name}}/`;
-        const socket = new WebSocket(socketURL);
-
-        const message_form = document.getElementById("msg-form");
-        const message_input = document.getElementById("message");
-
-        message_form.addEventListener("submit", function (event) {
-            event.preventDefault();
-            sendMessage();
-        });
-
-        message_input.addEventListener("keydown", function (event) {
-            if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
-            }
-        });
-
-        function sendMessage() {
-            let message_sent = message_input.value.trim();
-            if (message_sent) {
-                socket.send(
-                    JSON.stringify({
-                        message: message_sent,
-                        room_name: "{{room_name}}",
-                        sender: "{{user}}",
-                    })
-                );
-            }
-        }
-
-        const chats_div = document.getElementById("chats-container");
-
-        const scrollToBottom = () => {
-            chats_div.scrollTop = chats_div.scrollHeight;
-        };
-
-        socket.addEventListener("message", (e) => {
-            const data = JSON.parse(e.data);
-            if (data && data.message) {
-                let sender = data.message.sender;
-                let content = data.message.message;
-
-                if (sender == "{{user}}") {
-                    message_input.value = "";
-                }
-
-                const messageClass = sender == "{{user}}" ? 'sent' : 'received';
-                const senderLabel = sender == "{{user}}" ? 'Me' : sender;
-
-                chats_div.innerHTML += `<div class="message-container ${messageClass}">
-                    <div class="username">${senderLabel}</div>
-                    <div class="single-message ${messageClass}">
-                        ${content}
-                    </div>
-                </div>`;
-
-                scrollToBottom();
-            }
-        });
-
-        scrollToBottom();
-    </script>
 </body>
 </html>

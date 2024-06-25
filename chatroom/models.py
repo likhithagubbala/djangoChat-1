@@ -1,5 +1,3 @@
-from operator import mod
-from statistics import mode
 from django.db import models
 
 class Room(models.Model):
@@ -10,9 +8,9 @@ class Room(models.Model):
 
 class Message(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    sender = models.CharField(max_length=50)
-    message = models.TextField()
+    author = models.CharField(max_length=50)  # Changed from 'sender' to 'author'
+    content = models.TextField()  # Changed from 'message' to 'content'
     time_stamp = models.DateTimeField(auto_now_add=True)  # Add a timestamp field
 
     def __str__(self):
-        return f"{str(self.room)} - {self.sender}"
+        return f"{str(self.room)} - {self.author}"

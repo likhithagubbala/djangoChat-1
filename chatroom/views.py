@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.contrib import messages
 from .models import Room, Message
 
 def HomeView(request):
@@ -30,3 +33,42 @@ def RoomView(request, room_name, username):
         "room_name": existing_room.room_name
     }
     return render(request, 'room.html', context)
+
+def SendMessageView(request, room_name):
+    if request.method == 'POST':
+        message_content = request.POST.get('message')
+        username = request.user.username  # Assuming user is authenticated
+        room = Room.objects.get(room_name__iexact=room_name)
+        if message_content:
+            Message.objects.create(room=room, author=username, content=message_content)
+        return redirect('room', room_name=room_name, username=username)
+    else:
+        return redirect('home')  # Redirect to home if someone tries to access via GET
+
+def LoginView(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
+    return render(request, 'login.html')
+
+def SignupView(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        if password == confirm_password:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username already exists.')
+            else:
+                user = User.objects.create_user(username=username, password=password)
+                login(request, user)
+                return redirect('home')
+        else:
+            messages.error(request, 'Passwords do not match.')
+    return render(request, 'signup.html')
