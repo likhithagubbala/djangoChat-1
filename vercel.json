@@ -1,6 +1,6 @@
 {
     "builds": [{
-        "src": "djangoChat/wsgi.py",
+        "src": "djangoChat/chat_env/Scripts/Activate && djangoChat/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     },
